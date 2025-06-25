@@ -20,10 +20,10 @@
 
 	<div class="w-full h-[110px] fixed top-0 bg-gradient-to-b via-[#0c1427] from-[#0c1427] pt-1">
 	<div class="relative w-min sm:w-full mx-auto flex flex-row-reverse">
-		<a class="relative text-white sm:text-xl p-3 sm:mx-3 hover:underline"href="./activities.html"><label>Awards/Activities</label></a>
-		<a class="relative text-white sm:text-xl p-3 sm:mx-3 hover:underline"href="./skills.html"><label>Skills</label></a>
-		<a class="relative text-white sm:text-xl p-3 sm:mx-3 hover:underline"href="./projects.html"><label>Projects</label></a>
-		<a class="relative text-white sm:text-xl p-3 sm:mx-3 hover:underline"href="./index.html"><label>Home</label></a>
+		<a class="relative text-white sm:text-xl p-3 sm:mx-3 hover:underline" href="#activities"><label>Awards/Activities</label></a>
+		<a class="relative text-white sm:text-xl p-3 sm:mx-3 hover:underline" href="#skills"><label>Skills</label></a>
+		<a class="relative text-white sm:text-xl p-3 sm:mx-3 hover:underline" href="#projects"><label>Projects</label></a>
+		<a class="relative text-white sm:text-xl p-3 sm:mx-3 hover:underline" href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;"><label>Home</label></a>
 	</div>
 	</div>
 
@@ -37,12 +37,35 @@
 		</div>
 	</div>
 
-	<h1 class="mx-[5vh] lg:mx-[10vh] mt-8 text-3xl font-bold">
+	<!-- <h1 class="mx-[5vh] lg:mx-[10vh] mt-8 text-3xl font-bold">
 		Contact:
+	</h1> -->
+	<div class="mx-auto lg:mx-auto mt-6 bg-slate-900/80 rounded-lg border-2 border-slate-700 p-6 flex flex-col lg:flex-row gap-4 lg:gap-8 items-center justify-center w-fit">
+		<div class="flex items-center gap-4">
+			<i class="bi bi-envelope-fill text-4xl text-white"></i>
+			<a class="text-lg underline text-white" href="mailto:harishschandar@gmail.com">harishschandar@gmail.com</a>
+		</div>
+		<div class="flex items-center gap-4">
+			<i class="bi bi-github text-4xl text-white"></i>
+			<a class="text-lg underline text-white" href="https://www.github.com/harish-chandar">GitHub</a>
+		</div>
+		<div class="flex items-center gap-4">
+			<i class="bi bi-linkedin text-4xl text-white"></i>
+			<a class="text-lg underline text-white" href="https://www.linkedin.com/in/harish-chandar-496412316">Linkedin</a>
+		</div>
+	</div>
+
+	<h1 id="activities" class="mx-[5vh] lg:mx-[10vh] mt-8 text-3xl font-bold">
+		Awards and Activities
 	</h1>
-	<p class="mx-[5vh] lg:mx-[10vh] mt-6 text-lg underline"><i class="bi bi-envelope-fill mr-2"></i><a href="mailto:harishschandar@gmail.com">harishschandar@gmail.com</a></p>
-	<p class="mx-[5vh] lg:mx-[10vh] text-lg underline"><i class="bi bi-github mr-2"></i><a href="https://www.github.com/harish-chandar">GitHub</a></p>
-	<p class="mx-[5vh] lg:mx-[10vh] text-lg underline"><i class="bi bi-linkedin mr-2"></i><a href="https://www.linkedin.com/in/harish-chandar-496412316">Linkedin</a></p>
+
+	<h1 id="skills" class="mx-[5vh] lg:mx-[10vh] mt-8 text-3xl font-bold">
+		Skills
+	</h1>
+
+	<h1 id="projects" class="mx-[5vh] lg:mx-[10vh] mt-8 text-3xl font-bold">
+		Projects
+	</h1>
 
 	<footer class="bg-gray-900 text-white text-center py-4 mt-6">
     <p>&copy; 2025 Harish Chandar. All rights reserved.</p>
