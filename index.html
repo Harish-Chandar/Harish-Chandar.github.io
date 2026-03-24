@@ -1,75 +1,774 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="My Personal Portfolio Website">
-  <title>Harish Chandar</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-  <!-- <script src="https://cdn.tailwindcss.com"></script> -->
-  <link href="./output.css" rel="stylesheet">
-</head>
-<body class="">
-	<div class="w-full h-[50px] bg-black"></div>
-	<div class="relative w-full h-[75vh] overflow-hidden bg-fixed bg-cover bg-center" style="background-image: url('./hero.jpg');">
-		<div class="absolute inset-0 bg-black/50"></div>
-    	<div class="absolute inset-0 flex items-center justify-center">
-        	<h1 class="text-white text-4xl md:text-6xl font-extrabold">Harish Chandar</h1>
-    	</div>
-	</div>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Harish Chandar</title>
+        <link rel="icon" href="images/favicon-removebg-preview.png" type="image/x-icon">
+        <link href="./output.css" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
+        <style>
+            body {
+                font-family: 'Inter', 'Segoe UI', sans-serif;
+            }
+            .card-hover {
+                transition: all 0.3s ease;
+            }
+            .card-hover:hover {
+                background-color: rgba(255, 255, 255, 0.08);
+                transform: translateY(-4px);
+                box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+            }
+            #scrollToTop {
+                opacity: 0;
+                transform: translateY(20px);
+                transition: opacity 0.3s, transform 0.3s;
+            }
+            #scrollToTop.show {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            #scrollToTop i {
+                font-weight: 700;
+                -webkit-text-stroke: 0.3px currentColor;
+            }
+            nav a {
+                border: 1px solid transparent;
+                backdrop-filter: blur(0px);
+                background-color: transparent;
+            }
+            nav a:hover {
+                border-color: rgb(31, 41, 55);
+                backdrop-filter: blur(8px);
+                background-color: rgba(15, 23, 42, 0.8);
+            }
+            nav {
+                transition: opacity 0.3s ease, transform 0.3s ease;
+                opacity: 1;
+                transform: translateY(0);
+            }
+            nav.scroll-hidden {
+                opacity: 0;
+                transform: translateY(-20px);
+                pointer-events: none;
+            }
+            @media (max-width: 768px) {
+                nav {
+                    left: 50%;
+                    right: auto;
+                    transform: translateX(-50%);
+                    top: auto;
+                    bottom: 8px;
+                }
+                nav.scroll-hidden {
+                    opacity: 0;
+                    transform: translateX(-50%) translateY(-20px);
+                }
+            }
+            .social-link {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.4rem;
+            }
+            .social-pill {
+                display: inline-flex;
+                align-items: center;
+                max-width: 0;
+                opacity: 0;
+                white-space: nowrap;
+                overflow: hidden;
+                margin-left: 0;
+                border: 0 solid rgb(8, 145, 178);
+                background-color: rgba(8, 47, 73, 0.92);
+                color: rgb(165, 243, 252);
+                font-size: 0.75rem;
+                line-height: 1;
+                padding: 0;
+                border-radius: 9999px;
+                transform: translateX(-6px);
+                transition: max-width 0.25s ease, opacity 0.2s ease, transform 0.2s ease, padding 0.2s ease, margin-left 0.2s ease, border-width 0.2s ease;
+            }
+            .copy-note {
+                color: rgb(148, 163, 184);
+                opacity: 0;
+                margin-left: 0.2rem;
+                transition: opacity 0.2s ease;
+            }
+            .social-link:hover .social-pill,
+            .social-link:focus-visible .social-pill,
+            .social-link.copied .social-pill {
+                max-width: 320px;
+                opacity: 1;
+                margin-left: 0.2rem;
+                border-width: 1px;
+                padding: 0.4rem 0.7rem;
+                transform: translateX(0);
+            }
+            .social-link.copied .copy-note {
+                opacity: 1;
+            }
+            .social-link:hover .copy-note,
+            .social-link:focus-visible .copy-note {
+                opacity: 0;
+            }
+            #themeToggle {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 34px;
+                height: 34px;
+                border-radius: 9999px;
+                border: 1px solid rgb(30, 41, 59);
+                background: rgba(2, 6, 23, 0.8);
+                color: rgb(103, 232, 249);
+                backdrop-filter: blur(8px);
+                transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+            }
+            #themeToggle:hover {
+                transform: translateY(-1px);
+                background: rgba(15, 23, 42, 0.95);
+            }
+            #themeToggle .bi-sun-fill {
+                display: none;
+            }
+            .light-theme #themeToggle {
+                border-color: rgb(107, 144, 125);
+                background: rgba(240, 249, 244, 0.95);
+                color: rgb(0, 88, 60);
+            }
+            .light-theme #themeToggle .bi-moon-fill {
+                display: none;
+            }
+            .light-theme #themeToggle .bi-sun-fill {
+                display: inline;
+            }
+            body.light-theme {
+                background-color: rgb(248, 250, 252);
+                color: rgb(15, 23, 42);
+            }
+            body.light-theme nav a:hover {
+                border-color: rgb(185, 214, 201);
+                background-color: rgba(226, 240, 234, 0.95);
+            }
+            body.light-theme .card-hover:hover {
+                background-color: rgba(148, 163, 184, 0.12);
+                box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.15);
+            }
+            body.light-theme .bg-slate-900 {
+                background-color: rgba(255, 255, 255, 0.92);
+            }
+            body.light-theme .bg-slate-800 {
+                background-color: rgb(226, 232, 240);
+            }
+            body.light-theme .text-white {
+                color: rgb(15, 23, 42);
+            }
+            body.light-theme .text-gray-500 {
+                color: rgb(71, 85, 105);
+            }
+            body.light-theme .text-gray-400 {
+                color: rgb(100, 116, 139);
+            }
+            body.light-theme .text-gray-300 {
+                color: rgb(51, 65, 85);
+            }
+            body.light-theme .border-gray-800,
+            body.light-theme .border-gray-700 {
+                border-color: rgb(203, 213, 225);
+            }
+            body.light-theme .social-pill {
+                border-color: rgb(176, 216, 196);
+                background-color: rgb(232, 245, 238);
+                color: rgb(0, 88, 60);
+            }
+            body.light-theme .copy-note {
+                color: rgb(71, 85, 105);
+            }
+            body.light-theme .text-cyan-400 {
+                color: rgb(0, 88, 60);
+            }
+            body.light-theme .text-cyan-300 {
+                color: rgb(9, 106, 74);
+            }
+            body.light-theme .hover\:text-cyan-400:hover {
+                color: rgb(0, 88, 60);
+            }
+            body.light-theme .hover\:text-cyan-300:hover {
+                color: rgb(9, 106, 74);
+            }
+            body.light-theme .bg-cyan-500 {
+                background-color: rgb(0, 88, 60);
+            }
+            body.light-theme .hover\:bg-cyan-600:hover {
+                background-color: rgb(0, 76, 52);
+            }
+            body.light-theme #languages .bg-gray-800 {
+                background-color: rgb(211, 231, 220);
+            }
+            body.light-theme #languages .bg-cyan-500 {
+                background-color: rgb(46, 129, 97);
+            }
+            body.light-theme #scrollToTop i {
+                color: rgb(211, 231, 220);
+            }
+        </style>
+    </head>
+    <body class="bg-slate-950 text-white">
+        <button id="themeToggle" type="button" aria-label="Switch to light mode" class="fixed top-8 right-8 z-50">
+            <i class="bi bi-moon-fill text-sm"></i>
+            <i class="bi bi-sun-fill text-sm"></i>
+        </button>
+        <nav class="fixed top-8 md:right-24 z-40 bottom-auto md:bottom-auto">
+            <ul class="flex flex-row gap-3 md:gap-4 text-[10px] md:text-sm">
+                <li><a href="#experience" class="text-gray-400 hover:text-cyan-400 md:px-3 py-2 rounded-lg transition">Experience</a></li>
+                <li><a href="#projects" class="text-gray-400 hover:text-cyan-400 md:px-3 py-2 rounded-lg transition">Projects</a></li>
+                <li><a href="#tools" class="text-gray-400 hover:text-cyan-400 md:px-3 py-2 rounded-lg transition">Tools</a></li>
+				<li><a href="#awards" class="text-gray-400 hover:text-cyan-400 md:px-3 py-2 rounded-lg transition">Awards</a></li>
+            </ul>
+        </nav>
+        <button id="scrollToTop" class="fixed bottom-8 right-8 z-50 bg-cyan-500 hover:bg-cyan-600 text-white p-3 rounded-full shadow-lg transition">
+            <i class="bi bi-arrow-up text-xl"></i>
+        </button>
+        <div class="max-w-4xl mx-auto px-6 py-20">
+            <section id="home" class="mb-20">
+                <div class="mb-12">
+                    <pre role="img" aria-label="Harish Chandar" style="line-height: 1.01;" class="text-[10px] md:text-base font-mono text-cyan-400 mb-8">██╗  ██╗ █████╗ ██████╗ ██╗███████╗██╗  ██╗
+██║  ██║██╔══██╗██╔══██╗██║██╔════╝██║  ██║
+███████║███████║██████╔╝██║███████╗███████║
+██╔══██║██╔══██║██╔══██╗██║╚════██║██╔══██║
+██║  ██║██║  ██║██║  ██║██║███████║██║  ██║
+╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚══════╝╚═╝  ╚═╝
 
-	<div class="w-full h-[110px] fixed top-0 bg-gradient-to-b via-[#0c1427] from-[#0c1427] pt-1">
-	<div class="relative w-min sm:w-full mx-auto flex flex-row-reverse">
-		<a class="relative text-white sm:text-xl p-3 sm:mx-3 hover:underline" href="#activities"><label>Awards/Activities</label></a>
-		<a class="relative text-white sm:text-xl p-3 sm:mx-3 hover:underline" href="#skills"><label>Skills</label></a>
-		<a class="relative text-white sm:text-xl p-3 sm:mx-3 hover:underline" href="#projects"><label>Projects</label></a>
-		<a class="relative text-white sm:text-xl p-3 sm:mx-3 hover:underline" href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;"><label>Home</label></a>
-	</div>
-	</div>
+ ██████╗██╗  ██╗ █████╗ ███╗   ██╗██████╗  █████╗ ██████╗
+██╔════╝██║  ██║██╔══██╗████╗  ██║██╔══██╗██╔══██╗██╔══██╗
+██║     ███████║███████║██╔██╗ ██║██║  ██║███████║██████╔╝
+██║     ██╔══██║██╔══██║██║╚██╗██║██║  ██║██╔══██║██╔══██╗
+╚██████╗██║  ██║██║  ██║██║ ╚████║██████╔╝██║  ██║██║  ██║
+ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝</pre>
+                </div>
+                <p class="text-gray-500 mb-8 text-lg leading-relaxed max-w-2xl">
+                    IMSA '26 | Computer Science | Autonomous Driving Research
+                </p>
+                <p class="text-gray-300 mb-8 text-lg leading-relaxed max-w-2xl">
+                    
+                </p>
+                <div class="flex gap-6 items-center flex-wrap justify-start">
+                    <a href="https://github.com/harish-chandar" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="social-link text-cyan-400 hover:text-cyan-300 transition text-2xl">
+                        <i class="bi bi-github"></i>
+                        <span class="social-pill">github.com/harish-chandar</span>
+                    </a>
+                    <a href="https://linkedin.com/in/harish-chandar" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="social-link text-cyan-400 hover:text-cyan-300 transition text-2xl">
+                        <i class="bi bi-linkedin"></i>
+                        <span class="social-pill">linkedin.com/in/harish-chandar</span>
+                    </a>
+                    <a id="emailLink" href="mailto:harishschandar@gmail.com" aria-label="Email" class="social-link text-cyan-400 hover:text-cyan-300 transition text-2xl">
+                        <i class="bi bi-envelope"></i>
+                        <span class="social-pill">harishschandar@gmail.com<span class="copy-note">| Copied to Clipboard</span></span>
+                    </a>
+                </div>
+            </section>
 
-	<div class="flex flex-col lg:flex-row py-3 lg:py-6 mt-6 lg-[2vh] mx-1 lg:mx-[10vh] rounded-lg border-2 border-slate-700 ">
-		<img src="./me.jpg" class="mx-auto mb-3 lg:mb-0 md:ml-6 rounded-lg w-[40vh] md:w-[80vh] lg:w-[70vh] h-min lg:my-auto">
-		<div class="lg:my-auto">
-			<h1 class="mx-[5vh] md:mx-[10vh] text-lg lg:text-2xl mb-3 font-bold">About Me: </h1> 
-			<p class="mx-[5vh] md:mx-[10vh] text-md lg:text-lg ">
-				Hello, my name is Harish Chandar! I am a junior at the Illinois Mathematics and Science academy. I am very passionate about computer science and programming, especially on the cutting edge of technologies such as autonomous driving, artificial intelligence, and cybersecurity. I am also interested in web development and have worked on full stack projects. I also enjoy biology, chemistry, and reading. 
-			</p>
-		</div>
-	</div>
+            <section id="education" class="mb-20">
+                <h2 class="text-2xl font-bold text-white mb-8 pb-3 border-b border-gray-800">Education</h2>
+                <div class="space-y-6">
+                    <div class="card-hover bg-slate-900 bg-opacity-50 p-6 rounded-lg border border-gray-800">
+                        <!-- <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4 gap-4">
+                            <div class="flex gap-4 flex-1">
+                                <img src="images/ill.jpg" alt="UIUC Logo" class="w-12 h-12 rounded-full object-cover flex-shrink-0">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-white">University of Illinois Urbana Champaign</h3>
+                                    <p class="text-gray-400 text-sm">Champaign, IL, USA • 2026 - 2030</p>
+                                </div>
+                            </div>
+                            <div class="bg-cyan-500 bg-opacity-10 px-4 py-2 rounded-lg whitespace-nowrap flex-shrink-0">
+                                <span class="text-cyan-300 text-sm font-semibold">B.S. Computer Science</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 text-sm mb-4">Brief description of your studies and achievements at UIUC.</p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="px-3 py-1 bg-slate-800 text-cyan-300 text-xs rounded-full">Relevant Course</span>
+                            <span class="px-3 py-1 bg-slate-800 text-cyan-300 text-xs rounded-full">Relevant Course</span>
+                        </div>
+                        <div class="border-b border-gray-700 my-6"></div>
+                        <h4 class="text-sm font-semibold text-gray-300 mb-3">Clubs & Leadership</h4>
+                        <div class="mb-3">
+                            <div class="flex items-baseline gap-2 mb-1">
+                                <span class="font-semibold text-white">Club Name</span>
+                                <span class="text-gray-400 italic text-sm">Position</span>
+                            </div>
+                            <p class="text-gray-300 text-sm">Brief description of your role and contributions.</p>
+                        </div>
+                    </div> -->
+                    <div class="card-hover bg-slate-900 bg-opacity-50 p-6 rounded-lg border border-gray-800">
+                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4 gap-4">
+                            <img src="images/imsalogo.webp" alt="IMSA Logo" class="w-12 h-12 rounded-full object-cover flex-shrink-0">
+                            <div class="flex-1">
+								<h3 class="text-lg font-semibold text-white">Illinois Mathematics and Science Academy</h3>
+                                <p class="text-gray-400 text-sm">Aurora, IL, USA • 2023 - 2026</p>
+                            </div>
+                        </div>
+						<p class="text-gray-300 text-sm mb-4">Selective residential public high school. Rigorous STEM coursework with emphasis on research and inquiry.</p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="px-3 py-1 bg-slate-800 text-cyan-300 text-xs rounded-full">Linear Algebra</span>
+                            <span class="px-3 py-1 bg-slate-800 text-cyan-300 text-xs rounded-full">Multivariable Calculus</span>
+                            <span class="px-3 py-1 bg-slate-800 text-cyan-300 text-xs rounded-full">Computational Science</span>
+                            <span class="px-3 py-1 bg-slate-800 text-cyan-300 text-xs rounded-full">Calculus-Based Physics: Mechanics</span>
+                            <span class="px-3 py-1 bg-slate-800 text-cyan-300 text-xs rounded-full">Electronics</span>
+                            <span class="px-3 py-1 bg-slate-800 text-cyan-300 text-xs rounded-full">Microcontroller Applications</span>
+                            <span class="px-3 py-1 bg-slate-800 text-cyan-300 text-xs rounded-full">Artificial Intelligence</span>
+                        </div>
+                        <div class="border-b border-gray-700 my-6"></div>
+                        <h4 class="text-sm font-semibold text-gray-300 mb-3">Clubs & Leadership</h4>
+                        <div class="mb-3">
+                            <div class="flex items-baseline gap-2 mb-1">
+                                <span class="font-semibold text-white">Congressional Debate</span>
+                                <span class="text-gray-400 italic text-sm">Senior Economics Research Chair</span>
+                            </div>
+                            <p class="text-gray-300 text-sm">Mentored 40+ new debaters in public speaking and research. Competed on the Varsity ICDA and NSDA circuits.</p>
+                        </div>
+                        <div class="mb-3">
+                            <div class="flex items-baseline gap-2 mb-1">
+                                <span class="font-semibold text-white">IMSA.ai</span>
+                                <span class="text-gray-400 italic text-sm">Education Team Lead</span>
+                            </div>
+                            <p class="text-gray-300 text-sm">Designed and delivered accelerated AI lessons to 20+ students through weekly sessions.</p>
+                        </div>
+                        <div class="mb-3">
+                            <div class="flex items-baseline gap-2 mb-1">
+                                <span class="font-semibold text-white">Math Team</span>
+                                <span class="text-gray-400 italic text-sm">Competitor (ICTM)</span>
+                            </div>
+                            <p class="text-gray-300 text-sm">Competed in Illinois Council of Teachers of Mathematics competitions (ICTM), representing IMSA at regional and state tournaments.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-	<!-- <h1 class="mx-[5vh] lg:mx-[10vh] mt-8 text-3xl font-bold">
-		Contact:
-	</h1> -->
-	<div class="mx-auto lg:mx-auto mt-6 bg-slate-900/80 rounded-lg border-2 border-slate-700 p-6 flex flex-col lg:flex-row gap-4 lg:gap-8 items-center justify-center w-fit">
-		<div class="flex items-center gap-4">
-			<i class="bi bi-envelope-fill text-4xl text-white"></i>
-			<a class="text-lg underline text-white" href="mailto:harishschandar@gmail.com">harishschandar@gmail.com</a>
-		</div>
-		<div class="flex items-center gap-4">
-			<i class="bi bi-github text-4xl text-white"></i>
-			<a class="text-lg underline text-white" href="https://www.github.com/harish-chandar">GitHub</a>
-		</div>
-		<div class="flex items-center gap-4">
-			<i class="bi bi-linkedin text-4xl text-white"></i>
-			<a class="text-lg underline text-white" href="https://www.linkedin.com/in/harish-chandar-496412316">Linkedin</a>
-		</div>
-	</div>
+            <section id="experience" class="mb-20">
+                <h2 class="text-2xl font-bold text-white mb-8 pb-3 border-b border-gray-800">Experience</h2>
+                <div class="space-y-6">
+                    <div class="card-hover bg-slate-900 bg-opacity-50 p-6 rounded-lg border border-gray-800">
+                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4 gap-4">
+                            <img src="images/cmu.png" alt="Carnegie Mellon University Logo" class="w-12 h-12 rounded object-cover flex-shrink-0">
+                            <div class="flex-1">
+                                <h3 class="text-lg font-semibold text-white">Artificial Intelligence Researcher Intern</h3>
+                                <p class="text-gray-400 text-sm">Carnegie Mellon University • Pittsburgh, PA • September 2024 - Present</p>
+                            </div>
+                        </div>
+                        <ul class="list-none text-gray-300 text-sm space-y-2 mb-4">
+                            <li><span class="font-bold text-cyan-300 mr-2">&gt;</span>Researched state-of-the-art trajectory prediction systems and transformer neural networks.</li>
+                            <li><span class="font-bold text-cyan-300 mr-2">&gt;</span>Proposed and developed a modification to the AutoBot encoder (<em>Latent Variable Sequential Set Transformers</em>) focused on construction-zone safety, reducing Average Displacement Error by 30%.</li>
+                            <li><span class="font-bold text-cyan-300 mr-2">&gt;</span>Qualitative analysis reveals that much of the displacement error improvements are due to the improved model reducing speeds around construction.</li>
+                            <li><span class="font-bold text-cyan-300 mr-2">&gt;</span>Presented findings at IMSAloquium and the National Consortium of STEM Schools Research Conference (2025).</li>
+                        </ul>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-slate-800 text-cyan-300 text-xs rounded-full">Trajectory Prediction</span>
+                            <span class="px-3 py-1 bg-slate-800 text-cyan-300 text-xs rounded-full">Research Methodology</span>
+                            <span class="px-3 py-1 bg-slate-800 text-cyan-300 text-xs rounded-full">Transformer Neural Networks</span>
+                        </div>
+                    </div>
 
-	<h1 id="activities" class="mx-[5vh] lg:mx-[10vh] mt-8 text-3xl font-bold">
-		Awards and Activities
-	</h1>
+                    <div class="card-hover bg-slate-900 bg-opacity-50 p-6 rounded-lg border border-gray-800">
+                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4 gap-4">
+                            <img id="leeExperienceLogo" src="images/Learning-Enrichment-Engine-Logo.svg" data-dark-src="images/Learning-Enrichment-Engine-Logo.svg" data-light-src="images/Learning-Enrichment-Engine-Logo-blue.svg" alt="Learning Enrichment Engine Logo" class="w-12 h-12 rounded object-cover flex-shrink-0">
+                            <div class="flex-1">
+                                <h3 class="text-lg font-semibold text-white">Senior Web Developer</h3>
+                                <p class="text-gray-400 text-sm">Illinois Association for Gifted Children • Aurora, IL • April 2024 - Present</p>
+                            </div>
+                        </div>
+                        <ul class="list-none text-gray-300 text-sm space-y-2 mb-4">
+                            <li><span class="font-bold text-cyan-300 mr-2">&gt;</span>Developed production features for iagc.imsa.edu, including natural language processing tools and administrator/developer dashboards.</li>
+                            <li><span class="font-bold text-cyan-300 mr-2">&gt;</span>Collaborated with school administrators and IT teams to build, deploy, and iterate on website updates.</li>
+                            <li><span class="font-bold text-cyan-300 mr-2">&gt;</span>Led a team of 5 junior developers and established durable organizational workflows.</li>
+                            <li><span class="font-bold text-cyan-300 mr-2">&gt;</span>Designed a secure PHP/MySQL authentication system with password hashing, salting, and secure session tokens.</li>
+                            <li><span class="font-bold text-cyan-300 mr-2">&gt;</span>Used JavaScript extensively to dynamically render site content based on user inputs and preferences.</li>
+                        </ul>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-slate-800 text-cyan-300 text-xs rounded-full">PHP</span>
+                            <span class="px-3 py-1 bg-slate-800 text-cyan-300 text-xs rounded-full">MySQL</span>
+                            <span class="px-3 py-1 bg-slate-800 text-cyan-300 text-xs rounded-full">JavaScript</span>
+                            <span class="px-3 py-1 bg-slate-800 text-cyan-300 text-xs rounded-full">Authentication Systems</span>
+                            <span class="px-3 py-1 bg-slate-800 text-cyan-300 text-xs rounded-full">Leadership</span>
+                        </div>
+                    </div>
 
-	<h1 id="skills" class="mx-[5vh] lg:mx-[10vh] mt-8 text-3xl font-bold">
-		Skills
-	</h1>
+                    <div class="card-hover bg-slate-900 bg-opacity-50 p-6 rounded-lg border border-gray-800">
+                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4 gap-4">
+                            <img src="images/alchemy.webp" alt="Alchemy Software Logo" class="w-12 h-12 rounded object-cover flex-shrink-0">
+                            <div class="flex-1">
+                                <h3 class="text-lg font-semibold text-white">Software Developer Intern</h3>
+                                <p class="text-gray-400 text-sm">Alchemy Software • Wheaton, IL • June 2025 - August 2025</p>
+                            </div>
+                        </div>
+                        <ul class="list-none text-gray-300 text-sm space-y-2 mb-4">
+                            <li><span class="font-bold text-cyan-300 mr-2">&gt;</span>Built core features for the Half Full Mobile App (React Native), including moving tasks, opening links, and free-trial mode for desktop feature parity.</li>
+                            <li><span class="font-bold text-cyan-300 mr-2">&gt;</span>Analyzed user behavior and designed a right-hand mode to improve usability and overall user experience.</li>
+                            <li><span class="font-bold text-cyan-300 mr-2">&gt;</span>Collaborated with 3 interns to add desktop features such as collapsible weeks and a compact display mode.</li>
+                        </ul>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-slate-800 text-cyan-300 text-xs rounded-full">React Native (Android)</span>
+                            <span class="px-3 py-1 bg-slate-800 text-cyan-300 text-xs rounded-full">Electron JS</span>
+                            <span class="px-3 py-1 bg-slate-800 text-cyan-300 text-xs rounded-full">Friendly Design</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-	<h1 id="projects" class="mx-[5vh] lg:mx-[10vh] mt-8 text-3xl font-bold">
-		Projects
-	</h1>
+            <section id="languages" class="mb-20">
+                <h2 class="text-2xl font-bold text-white mb-8 pb-3 border-b border-gray-800">Languages</h2>
+                <div class="space-y-6">
+                    <div class="space-y-2">
+                        <div class="flex flex-row gap-3 items-start mb-1">
+                            <i class="devicon-typescript-plain text-cyan-400 flex-shrink-0 mt-0.5" style="font-size: 1.2rem;"></i>
+                            <div class="flex-1 flex justify-between items-center gap-3">
+                                <span class="text-white font-semibold">JavaScript & TypeScript <span class="text-gray-400 text-sm">(Vanilla, React, React Native, Electron)</span></span>
+                                <span class="text-gray-400 text-sm whitespace-nowrap">Advanced</span>
+                            </div>
+                        </div>
+                        <div class="w-full bg-gray-800 rounded-full h-2.5">
+                            <div class="bg-cyan-500 h-2.5 rounded-full" style="width: 90%"></div>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex gap-3 items-start mb-1">
+                            <i class="devicon-java-plain text-cyan-400 flex-shrink-0 mt-0.5" style="font-size: 1.2rem;"></i>
+                            <div class="flex-1 flex justify-between items-center gap-3">
+                                <span class="text-white font-semibold">Java <span class="text-gray-400 text-sm">(Classwork, Android)</span></span>
+                                <span class="text-gray-400 text-sm whitespace-nowrap">Advanced</span>
+                            </div>
+                        </div>
+                        <div class="w-full bg-gray-800 rounded-full h-2.5">
+                            <div class="bg-cyan-500 h-2.5 rounded-full" style="width: 80%"></div>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex gap-3 items-start mb-1">
+                            <i class="devicon-csharp-plain text-cyan-400 flex-shrink-0 mt-0.5" style="font-size: 1.2rem;"></i>
+                            <div class="flex-1 flex justify-between items-center gap-3">
+                                <span class="text-white font-semibold">C# <span class="text-gray-400 text-sm">(Classwork, Computational Science)</span></span>
+                                <span class="text-gray-400 text-sm whitespace-nowrap">Intermediate</span>
+                            </div>
+                        </div>
+                        <div class="w-full bg-gray-800 rounded-full h-2.5">
+                            <div class="bg-cyan-500 h-2.5 rounded-full" style="width: 75%"></div>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex gap-3 items-start mb-1">
+                            <i class="devicon-python-plain text-cyan-400 flex-shrink-0 mt-0.5" style="font-size: 1.2rem;"></i>
+                            <div class="flex-1 flex justify-between items-center gap-3">
+                                <span class="text-white font-semibold">Python <span class="text-gray-400 text-sm">(AI/ML Research)</span></span>
+                                <span class="text-gray-400 text-sm whitespace-nowrap">Intermediate</span>
+                            </div>
+                        </div>
+                        <div class="w-full bg-gray-800 rounded-full h-2.5">
+                            <div class="bg-cyan-500 h-2.5 rounded-full" style="width: 70%"></div>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex gap-3 items-start mb-1">
+                            <i class="devicon-lua-plain text-cyan-400 flex-shrink-0 mt-0.5" style="font-size: 1.2rem;"></i>
+                            <div class="flex-1 flex justify-between items-center gap-3">
+                                <span class="text-white font-semibold">Lua <span class="text-gray-400 text-sm">(Neovim)</span></span>
+                                <span class="text-gray-400 text-sm whitespace-nowrap">Beginner</span>
+                            </div>
+                        </div>
+                        <div class="w-full bg-gray-800 rounded-full h-2.5">
+                            <div class="bg-cyan-500 h-2.5 rounded-full" style="width: 40%"></div>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex gap-3 items-start mb-1">
+                            <i class="devicon-c-plain text-cyan-400 flex-shrink-0 mt-0.5" style="font-size: 1.2rem;"></i>
+                            <div class="flex-1 flex justify-between items-center gap-3">
+                                <span class="text-white font-semibold">C <span class="text-gray-400 text-sm">(Arduino and Microcontrollers)</span></span>
+                                <span class="text-gray-400 text-sm whitespace-nowrap">Beginner</span>
+                            </div>
+                        </div>
+                        <div class="w-full bg-gray-800 rounded-full h-2.5">
+                            <div class="bg-cyan-500 h-2.5 rounded-full" style="width: 25%"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-	<footer class="bg-gray-900 text-white text-center py-4 mt-6">
-    <p>&copy; 2025 Harish Chandar. All rights reserved.</p>
-  </footer>
-</body>
+            <section id="projects" class="mb-20">
+                <h2 class="text-2xl font-bold text-white mb-8 pb-3 border-b border-gray-800">Projects</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="card-hover bg-slate-900 bg-opacity-50 p-6 rounded-lg border border-gray-800 md:col-span-2">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+                            <img src="projects/autobot.png" alt="AutoBot Project Screenshot" class="w-full h-40 rounded object-cover">
+                            <img src="projects/sir-results.png" alt="SIR Results Screenshot" class="w-full h-40 rounded object-top">
+                        </div>
+                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-3">
+                            <div>
+                                <h3 class="text-lg font-semibold text-white">Trajectory Prediction for Autonomous Vehicles in Construction Zones</h3>
+                                <p class="text-gray-400 text-sm">September 2024 - April 2026</p>
+                            </div>
+                        </div>
+                        <ul class="list-none text-gray-300 text-sm space-y-2 mb-4">
+                            <li><span class="font-bold text-cyan-300 mr-2">&gt;</span>Studied trajectory prediction for autonomous driving systems in construction zones, where clutter, uncertainty, and inconsistent lane cues make prediction substantially harder.</li>
+                            <li><span class="font-bold text-cyan-300 mr-2">&gt;</span>Augmented the prediction pipeline with a discrete encoder that performs attention over construction-related objects.</li>
+                            <li><span class="font-bold text-cyan-300 mr-2">&gt;</span>Integrated construction annotations for additional scene context in the model.</li>
+                            <li><span class="font-bold text-cyan-300 mr-2">&gt;</span>Extended encoding to include other classes of agents that were not used in the baseline model inputs.</li>
+                        </ul>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-slate-800 text-cyan-300 text-xs rounded-full">Research Skills</span>
+                            <span class="px-3 py-1 bg-slate-800 text-cyan-300 text-xs rounded-full">Transformer Neural Networks</span>
+                            <span class="px-3 py-1 bg-slate-800 text-cyan-300 text-xs rounded-full">PyTorch</span>
+                        </div>
+                    </div>
+                    <div class="card-hover bg-slate-900 bg-opacity-50 p-6 rounded-lg border border-gray-800">
+                        <img src="projects/peertutor.png" alt="Peer Tutors Project Screenshot" class="w-full h-40 rounded object-cover object-top mb-4">
+                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-3">
+                            <div>
+                                <h3 class="text-lg font-semibold text-white">Peer Tutors @ IMSA</h3>
+                                <p class="text-gray-400 text-sm">February 2025 - December 2025</p>
+                            </div>
+                        </div>
+                        <ul class="list-none text-gray-300 text-sm space-y-2 mb-4">
+                            <li><span class="font-bold text-cyan-300 mr-2">&gt;</span>Led 6 new developers building the new website for IMSA's peer tutor program.</li>
+                            <li><span class="font-bold text-cyan-300 mr-2">&gt;</span>Spearheaded back-end development and taught developers how to create APIs with ExpressJS.</li>
+                            <li><span class="font-bold text-cyan-300 mr-2">&gt;</span>Implemented secure authentication with JWT, Bcrypt, and ExpressJS middleware for administrator access.</li>
+                            <li><span class="font-bold text-cyan-300 mr-2">&gt;</span>Worked with administrators and residence counselors to replace outdated scheduling and coordination tools.</li>
+                            <li><span class="font-bold text-cyan-300 mr-2">&gt;</span>Serves 700+ students, counselors, teachers, and support faculty.</li>
+                        </ul>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-slate-800 text-cyan-300 text-xs rounded-full">React</span>
+                            <span class="px-3 py-1 bg-slate-800 text-cyan-300 text-xs rounded-full">SQLite</span>
+                            <span class="px-3 py-1 bg-slate-800 text-cyan-300 text-xs rounded-full">Express</span>
+                            <span class="px-3 py-1 bg-slate-800 text-cyan-300 text-xs rounded-full">Bcrypt</span>
+                            <span class="px-3 py-1 bg-slate-800 text-cyan-300 text-xs rounded-full">JWT</span>
+                        </div>
+                    </div>
+                    <div class="card-hover bg-slate-900 bg-opacity-50 p-6 rounded-lg border border-gray-800">
+                        <img src="projects/lee.png" alt="Learning Enrichment Engine Project Screenshot" class="w-full h-40 rounded object-cover object-top mb-4">
+                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-3">
+                            <div>
+                                <h3 class="text-lg font-semibold text-white">Learning Enrichment Engine</h3>
+                                <p class="text-gray-400 text-sm">April 2024 - May 2026</p>
+                            </div>
+                        </div>
+                        <ul class="list-none text-gray-300 text-sm space-y-2 mb-4">
+                            <li><span class="font-bold text-cyan-300 mr-2">&gt;</span>Built access-aware admin dashboards to centralize operations for <a href="https://iagc.imsa.edu" target="_blank" class="text-cyan-300 hover:underline">iagc.imsa.edu</a>.</li>
+                            <li><span class="font-bold text-cyan-300 mr-2">&gt;</span>Manually created a natural language input tool to automatically date events.</li>
+                            <li><span class="font-bold text-cyan-300 mr-2">&gt;</span>Implemented a secure PHP/MySQL authentication system with password hashing, salting, and token-based session validation.</li>
+                            <li><span class="font-bold text-cyan-300 mr-2">&gt;</span>Developed an API to receive algorithmically-collected events and post them to the database.</li>
+                            <li><span class="font-bold text-cyan-300 mr-2">&gt;</span>Coordinated deployment updates with school administrators and IT department.</li>
+                        </ul>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-slate-800 text-cyan-300 text-xs rounded-full">PHP</span>
+                            <span class="px-3 py-1 bg-slate-800 text-cyan-300 text-xs rounded-full">MySQL</span>
+                            <span class="px-3 py-1 bg-slate-800 text-cyan-300 text-xs rounded-full">JavaScript</span>
+                            <span class="px-3 py-1 bg-slate-800 text-cyan-300 text-xs rounded-full">Custom Auth</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="tools" class="mb-20">
+                <h2 class="text-2xl font-bold text-white mb-8 pb-3 border-b border-gray-800">Tools</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="card-hover bg-slate-900 bg-opacity-50 p-6 rounded-lg border border-gray-800">
+                        <div class="text-center mb-4">
+                            <i class="bi bi-database text-4xl text-cyan-400"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-white text-center mb-3">SQL</h3>
+                        <p class="text-gray-300 text-sm text-center">SQLite and MySQL databases for CRUD systems</p>
+                    </div>
+                    <div class="card-hover bg-slate-900 bg-opacity-50 p-6 rounded-lg border border-gray-800">
+                        <div class="text-center mb-4">
+                            <i class="bi bi-git text-4xl text-cyan-400"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-white text-center mb-3">Git</h3>
+                        <p class="text-gray-300 text-sm text-center">Version control and collaboration through GitHub</p>
+                    </div>
+                    <div class="card-hover bg-slate-900 bg-opacity-50 p-6 rounded-lg border border-gray-800">
+                        <div class="text-center mb-4">
+                            <i class="bi bi-terminal text-4xl text-cyan-400"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-white text-center mb-3">Terminal</h3>
+                        <p class="text-gray-300 text-sm text-center">Command-line interfaces and automations</p>
+                    </div>
+					
+					<div class="card-hover bg-slate-900 bg-opacity-50 p-6 rounded-lg border border-gray-800">
+						<div class="text-center mb-4">
+							<img src="tools/nvim.png" alt="Neovim Logo" class="h-16 w-auto mx-auto object-contain">
+						</div>
+						<h3 class="text-lg font-semibold text-white text-center mb-3">Neovim</h3>
+						<p class="text-gray-300 text-sm text-center">Personal development environment for most languages</p>
+					</div>
+                    <div class="card-hover bg-slate-900 bg-opacity-50 p-6 rounded-lg border border-gray-800">
+                        <div class="text-center mb-4">
+                            <img src="tools/idea.png" alt="IntelliJ IDEA Logo" class="h-16 w-auto mx-auto object-contain">
+                        </div>
+                        <h3 class="text-lg font-semibold text-white text-center mb-3">IntelliJ IDEA</h3>
+                        <p class="text-gray-300 text-sm text-center">Powerful IDE for Java, manages dependencies automatically</p>
+                    </div>
+					<div class="card-hover bg-slate-900 bg-opacity-50 p-6 rounded-lg border border-gray-800">
+						<div class="text-center mb-4">
+							<img src="tools/jupyter.png" alt="Jupyter Notebook Logo" class="h-16 w-auto mx-auto object-contain">
+						</div>
+						<h3 class="text-lg font-semibold text-white text-center mb-3">Jupyter Notebook</h3>
+						<p class="text-gray-300 text-sm text-center">Interactive computing environment for AI experiments</p>
+					</div>
+                </div>
+            </section>
+
+            <section id="awards" class="mb-20">
+                <h2 class="text-2xl font-bold text-white mb-8 pb-3 border-b border-gray-800">Awards</h2>
+                <div class="space-y-6">
+                    <div class="card-hover bg-slate-900 bg-opacity-50 p-6 mb-4 rounded-lg border border-gray-800">
+                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4 gap-4">
+                            <img src="images/Seal_of_the_United_States_Department_of_Education.svg" alt="Award Logo" class="w-12 h-12 rounded-full object-cover flex-shrink-0">
+                            <div class="flex-1">
+                                <h3 class="text-lg font-semibold text-white mb-2">Presidential Scholars Nominee</h3>
+                                <p class="text-gray-400 text-sm mb-4">United States Department of Education • February 2026</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 text-sm">One of the nation's highest honors for high school students in the United States of America.</p>
+                        <p class="text-gray-300 text-sm">Top 171 students in Illinois and top 5 students from IMSA.</p>
+                    </div>
+                    <div class="card-hover bg-slate-900 bg-opacity-50 p-6 mb-4 rounded-lg border border-gray-800">
+                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4 gap-4">
+                            <img src="images/ISAC-og-image.jpg" alt="Award Logo" class="w-12 h-12 rounded-full object-cover flex-shrink-0">
+                            <div class="flex-1">
+                                <h3 class="text-lg font-semibold text-white mb-2">State Scholar of Illinois</h3>
+                                <p class="text-gray-400 text-sm mb-4">Illinois Student Assistance Comission • January 2026</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 text-sm">Recognized for academic excellence in an Illinois high school. Approximately the top ten percent of graduates from approved high schools are announced as State Scholars each year.</p>
+                    </div>
+                    <div class="card-hover bg-slate-900 bg-opacity-50 p-6 mb-4 rounded-lg border border-gray-800">
+                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4 gap-4">
+                            <img src="images/ncss.jpg" alt="Award Logo" class="w-12 h-12 rounded-full object-cover flex-shrink-0">
+                            <div class="flex-1">
+                                <h3 class="text-lg font-semibold text-white mb-2">Presenter at National Consortium of STEM Schools Conference</h3>
+                                <p class="text-gray-400 text-sm mb-4">National Consortium of STEM Schools • June 2025</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 text-sm">Presented research on trajectory prediction autonomous systems in construction zones. One of seven presenters from Illinois.</p>
+                    </div>
+                    <div class="card-hover bg-slate-900 bg-opacity-50 p-6 mb-4 rounded-lg border border-gray-800">
+                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4 gap-4">
+                            <img src="images/amo.png" alt="Award Logo" class="w-12 h-12 rounded-full object-cover flex-shrink-0">
+                            <div class="flex-1">
+                                <h3 class="text-lg font-semibold text-white mb-2">Silver Award - Grade 10</h3>
+                                <p class="text-gray-400 text-sm mb-4">American Mathematics Olympiad • January 2024</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 text-sm">Awarded by SIMCC and SIUE for outstanding achievement in the 2024 American Mathematics Olympiad (10th grade).</p>
+                    </div>
+                </div>
+            </section>
+
+            <footer class="border-t border-gray-800 pt-8 text-center text-gray-500 text-sm">
+                <p>&copy; 2026 Harish Chandar  •  All rights reserved.</p>
+            </footer>
+        </div>
+        <script>
+            const scrollToTopBtn = document.getElementById('scrollToTop');
+            const navbar = document.querySelector('nav');
+            const emailLink = document.getElementById('emailLink');
+            const themeToggleBtn = document.getElementById('themeToggle');
+            const leeExperienceLogo = document.getElementById('leeExperienceLogo');
+
+            function setTheme(theme) {
+                const isLight = theme === 'light';
+                document.body.classList.toggle('light-theme', isLight);
+
+                if (themeToggleBtn) {
+                    themeToggleBtn.setAttribute('aria-label', isLight ? 'Switch to dark mode' : 'Switch to light mode');
+                }
+
+                if (leeExperienceLogo) {
+                    const darkSrc = leeExperienceLogo.dataset.darkSrc;
+                    const lightSrc = leeExperienceLogo.dataset.lightSrc;
+                    leeExperienceLogo.src = isLight ? lightSrc : darkSrc;
+                }
+            }
+
+            const systemThemeQuery = window.matchMedia('(prefers-color-scheme: light)');
+
+            function applySystemTheme() {
+                setTheme(systemThemeQuery.matches ? 'light' : 'dark');
+            }
+
+            function copyTextToClipboard(text) {
+                if (navigator.clipboard && window.isSecureContext) {
+                    return navigator.clipboard.writeText(text);
+                }
+
+                return new Promise((resolve, reject) => {
+                    const tempInput = document.createElement('textarea');
+                    tempInput.value = text;
+                    tempInput.style.position = 'fixed';
+                    tempInput.style.left = '-9999px';
+                    document.body.appendChild(tempInput);
+                    tempInput.focus();
+                    tempInput.select();
+
+                    try {
+                        const successful = document.execCommand('copy');
+                        document.body.removeChild(tempInput);
+                        if (successful) {
+                            resolve();
+                        } else {
+                            reject(new Error('Copy command was not successful'));
+                        }
+                    } catch (error) {
+                        document.body.removeChild(tempInput);
+                        reject(error);
+                    }
+                });
+            }
+
+            if (emailLink) {
+                emailLink.addEventListener('click', () => {
+                    copyTextToClipboard('harishschandar@gmail.com')
+                        .then(() => {
+                            emailLink.classList.add('copied');
+                            window.setTimeout(() => {
+                                emailLink.classList.remove('copied');
+                            }, 2200);
+                        })
+                        .catch(() => {
+                        });
+                });
+            }
+
+            if (themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', () => {
+                    const isLight = document.body.classList.contains('light-theme');
+                    setTheme(isLight ? 'dark' : 'light');
+                });
+            }
+
+            applySystemTheme();
+
+            if (typeof systemThemeQuery.addEventListener === 'function') {
+                systemThemeQuery.addEventListener('change', applySystemTheme);
+            } else if (typeof systemThemeQuery.addListener === 'function') {
+                systemThemeQuery.addListener(applySystemTheme);
+            }
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    scrollToTopBtn.classList.add('show');
+                    navbar.classList.add('scroll-hidden');
+                } else {
+                    scrollToTopBtn.classList.remove('show');
+                    navbar.classList.remove('scroll-hidden');
+                }
+            });
+            scrollToTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        </script>
+    </body>
 </html>
 
